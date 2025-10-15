@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-app1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node-app1
+  template:
+    metadata:
+      labels:
+        app: node-app1
+    spec:
+      containers:
+      - name: node-app1
+        image: ibrahimmintal/node-app1  # will be built locally by script
+        ports:
+          - containerPort: 3000

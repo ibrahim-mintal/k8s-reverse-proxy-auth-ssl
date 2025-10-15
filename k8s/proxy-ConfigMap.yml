@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+data:
+  default.conf: |
+
+    upstream backend {
+        server app1-service:80;
+        server app2-service:80;
+    }
+
+    server {
+        listen 80;
+        server_name localhost;
+        return 301 https://$host$request_uri;
+    }
+
+    server {
+        listen 443 ssl;
+        server_name localhost;
+
+        ssl_certificate /etc/nginx/certs/localhost.crt;
+        ssl_certificate_key /etc/nginx/certs/localhost.key;
+
+        location / {
+            proxy_pass http://backend;
+        }
+
+        location /devops {
+            auth_basic "Restricted Area";
+            auth_basic_user_file /etc/nginx/conf.d/.htpasswd;
+            proxy_pass http://backend/;
+        }
+    }

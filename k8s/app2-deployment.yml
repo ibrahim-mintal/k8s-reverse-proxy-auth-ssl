@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-app2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node-app2
+  template:
+    metadata:
+      labels:
+        app: node-app2
+    spec:
+      containers:
+      - name: node-app2
+        image: ibrahimmintal/node-app2
+        ports:
+          - containerPort: 3000
